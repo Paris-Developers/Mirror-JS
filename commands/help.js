@@ -4,6 +4,13 @@ const { MessageEmbed } = require('discord.js');
 
 exports.commandName = 'help';
 
+exports.registerData = (client) => {
+    return {
+        name: this.commandName,
+        description: 'Information about the bot.'
+    }
+} 
+
 exports.run = async (client,interaction) => {
     //TODO: Add permission checks
     const page1 = new MessageEmbed()
@@ -44,14 +51,7 @@ exports.run = async (client,interaction) => {
         '/birthday: Set your birthdayfor a message on your special day. \n'+
         '/mirror: :mirror:')
         .setFooter('Page 4 of 4');
-    // const page5 = new MessageEmbed()
-    //     .setColor('#FFFFFF');
-    //     //.setTitle()s
-    //     //.setThumbnail()
-    //     //.setTimestamp()
-    //     //.setDescription()
-    //     //.addField()
-    //     //.setFooter();
+
     let embedArray = [page1,page2,page3,page4];
     let index = 0;
     let message = await interaction.reply({embeds: [embedArray[index]], fetchReply: true}); //fetch the reply and store it so we can react to it and use it in the collector
@@ -76,10 +76,3 @@ exports.run = async (client,interaction) => {
         reaction.users.remove(user.id); //remove the emoji so the user doesn't have to remove it themselves
     });
 }
-
-exports.registerData = (client) => {
-    return {
-        name: this.commandName,
-        description: 'Information about the bot.'
-    }
-} 
