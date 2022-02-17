@@ -142,7 +142,8 @@ cron.schedule('* * * * *', async function() {
         }
     })
 })
-//birthdayChannels.deleteAll();
+birthdayChannels.deleteAll();
+birthdays.deleteAll();
 
 //Uses Token to login to the client
 client.login(config.token);

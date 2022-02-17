@@ -2,10 +2,9 @@ const Enmap = require('enmap');
 
 exports.commandName = 'birthday';
 
-let birthdays = new Enmap({name: 'bday'});
+let birthdays = new Enmap({name: 'bdays'});
 let birthdayChannels = new Enmap({name: 'bdayChannels'});
 let bdayTimes = new Enmap({name: 'bdayTimes'});
-
 
 exports.registerData = (client) => {
     return {
@@ -41,19 +40,26 @@ exports.registerData = (client) => {
             }]
             
         },{
-            name: 'message',
-            description: 'Edit the message used when its someones birthday',
-            type: 'STRING',
-            required: false
-        },{
             name:'time',
             description:'Edit the time the birthday message is sent in your local time',
             type: 1,
             require: false,
             options: [{
-                name: 'hours',
-                description: 'The hour you want to send Birthday messages in local time'
-
+                name: 'hour',
+                description: 'The hour you want to send Birthday messages in local time, military format (0-23)',
+                type: 'INTEGER',
+                required: true
+            },{
+                name: 'minute',
+                description: 'The minut you want to send Birthday messages',
+                type: 'INTEGER',
+                required: true
+            },{
+                name: 'timezone',
+                description: 'Your local timezone',
+                type: 'STRING',
+                required: true,
+                choices: timezones
             }]
         }]
     }
@@ -95,8 +101,12 @@ exports.run = async (client, interaction) => {
         //TODO: Verify the user is an administrator
 
         //Take the inputs for time and timezone and verify that they are valid
-
+        let hour = interaction.options.getInteger('hour');
+        if(hour > 23 || hour < 0) return interaction.reply({content: 'Invalide hour, please use military format (0-23) where 0 represents midnight.', ephemeral: true}); //end and reply if invalid hour
+        let minute = interactions.options.getInteger('minute'); 
+        if(minute > 60 || minute < 0) return interaction.reply({content: 'Invalide minute, please provide a integer between 0 and 60', ephemeral: true}); //end and reply if invalid minute
         //Convert the time to UTC, then adjust it for the local time on the linode
+        
 
         //Publish a birthday cronjob for that time (index.js)
         interaction.reply('Hey');
@@ -147,6 +157,19 @@ const months = [{
 },{
     name: 'December',
     value: 'december'
+}]
+const timezones = [{
+    name: 'EST',
+    value: 'est'
+},{
+    name: 'CST',
+    value: 'cst'
+},{
+    name: 'MST',
+    value: 'mst'
+},{
+    name: 'PST',
+    value: 'pst'
 }]
 
 exports.birthdays = birthdays; //TODO: verify names are correct
