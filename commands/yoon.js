@@ -1,3 +1,5 @@
+const { MessageEmbed,Permissions } = require('discord.js');
+
 exports.commandName= 'yoon';
 
 exports.registerData= (client) => {
@@ -8,5 +10,8 @@ exports.registerData= (client) => {
 }
 
 exports.run = (client,interaction) => {
-    interaction.reply("true !");
+    const embed = new MessageEmbed()
+        .setThumbnail('https://imgur.com/u74gSZU.jpg');
+    interaction.reply({embeds:[embed],content:"false!"});
+    return;
 }
